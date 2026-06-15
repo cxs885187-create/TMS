@@ -73,7 +73,32 @@ Embedding Model: deepseek-embedding
 API Key: 你的本地密钥
 ```
 
-如果要把系统改成“本地默认硬编码密钥”，请只在个人本地副本中修改 `backend/app/services/llm_provider.py`，不要把真实密钥提交到公开仓库。
+如果要把系统改成“本地默认硬编码密钥”，请只在个人本地副本中修改 `backend/app/services/llm_provider.py`。默认配置位置如下：
+
+```python
+@dataclass(slots=True)
+class LLMProviderConfig:
+    provider_name: str = "DeepSeek V4 Pro"
+    base_url: str = "https://api.deepseek.com/v1"
+    chat_model: str = "deepseek-v4-pro"
+    embedding_model: str = "deepseek-embedding"
+    api_key: str = ""
+```
+
+把最后一行改成你自己的本地密钥即可：
+
+```python
+api_key: str = "sk-你的本地密钥"
+```
+
+改完后重启后端：
+
+```powershell
+cd backend
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8011
+```
+
+注意：真实密钥只建议保留在你自己的本地副本里，不要提交到 GitHub。
 
 ## 演示流程建议
 
